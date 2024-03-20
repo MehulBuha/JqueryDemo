@@ -1,0 +1,152 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+
+<button class="btn btn-sm btn-primary m-2" id="btnAddEmployee">Add Employee</button>
+<div class="row mb-3">
+    <div class="col">
+        <label for="fromDate">From Date:</label>
+        <input type="date" id="fromDate" class="form-control">
+    </div>
+    <div class="col">
+        <label for="toDate">To Date:</label>
+        <input type="date" id="toDate" class="form-control">
+    </div>
+    <div class="col">
+        <button class="btn btn-primary mt-4" id="btnFilter">Filter</button>
+    </div>
+</div>
+<table class="table table-bordered" id="Datatable">
+    <thead>
+        <tr>
+
+            <th>
+                Name
+            </th>
+            <th>
+                Gender
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Password
+            </th>
+            <th>
+                PhoneNo
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Occupation
+            </th>
+            <th style="padding-right: 68px">
+                DateOfBirth
+            </th>
+            <th style="padding-right: 68px">
+                CreationDate
+            </th>
+            <th style="padding-right: 78px">
+                Operations
+            </th>
+
+        </tr>
+    </thead>
+    <tbody id="tbl_data">
+    </tbody>
+</table>
+<div class="madal fade modal" id="EmployeeModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="text-info modal-title" id="EmployeeHeading">Add Employee</h1>
+                <button class="close text-danger" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="form">
+                    <div class="form-group" style="display:none">
+                        Id :
+                        <input type="text" placeholder="" class="form-control" id="Id" name="Id" />
+
+                    </div>
+                    <div class="form-group">
+                        Name :
+                        <input type="text" placeholder="Enter Name" class="form-control" id="Name" name="Name" required />
+                        <span class="text-danger" id="nameError"></span>
+                    </div>
+                    <div class="form-group">
+                        Gender:
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="Gender" id="genderMale" value="Male">
+                            <label class="form-check-label" for="genderMale">
+                                Male
+                            </label>
+
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="Gender" id="genderFemale" value="Female">
+                            <label class="form-check-label" for="genderFemale">
+                                Female
+                            </label>
+                        </div>
+                        <span class="text-danger" id="genderError"></span>
+
+                    </div>
+                    <div class="form-group">
+                        Email :
+                        <input type="text" placeholder="Enter Email " class="form-control" id="Email" name="Email" required />
+                        <span class="text-danger" id="emailError"></span>
+                    </div>
+                    <div class="form-group">
+                        Password :
+                        <input type="password" placeholder="Enter Password" class="form-control" id="Password" name="Password" required />
+                        <span class="text-danger" id="passwordError"></span>
+                    </div>
+                    <div class="form-group">
+                        Phone :
+                        <input type="text" placeholder="Enter Phone No" class="form-control" id="Phone" name="PhoneNo" />
+                        <span class="text-danger" id="phoneError"></span>
+                    </div>
+                    <div class="form-group">
+                        Address :
+                        <input type="text" placeholder="Enter Address" class="form-control" id="Address" name="Address" />
+                        <span class="text-danger" id="AddressError"></span>
+                    </div>
+                    <div class="form-group">
+                        Occupation :
+                        <input type="text" placeholder="Enter Occupation Name" class="form-control" id="Occupation" name="Occupation" />
+                        <span class="text-danger" id="OccupationError"></span>
+                    </div>
+                    <div class="form-group">
+                        Date of Birth
+                        <input type="date" placeholder="Enter Date of Birth" class="form-control" id="DateofBirth" name="DateofBirth" />
+                        <span class="text-danger" id="DateofBirthError"></span>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="AddEmployee();" id="AddEmployee">Save</button>
+                <button class="btn btn-warning" onclick="UpdateEmployee();" style="display:none" id="UpdateEmployee">Update</button>
+                <button class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/Custom.js"></script>
+
+
+
+
+
+
