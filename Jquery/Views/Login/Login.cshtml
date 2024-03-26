@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+
+<form id="loginForm">
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="Enter email" required>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
+<div id="loginMessage"></div>
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#loginForm").submit(function (e) {
+                e.preventDefault();
+
+                var email = $("#email").val();
+                var password = $("#password").val();
+
+
+                if (email.trim() === '' || password.trim() === '') {
+                    $("#loginMessage").html("Email and password are required.");
+                    return;
+                }
+
+                $.ajax({
+                    url: '/Employee/Login',
+                    method: 'POST',
+                    data: { email: email, password: password },
+                    success: function (response) {
+                        if (response.success) {
+                            window.location.href = '/Index';
+                        } else {
+                            $("#loginMessage").html(response.message);
+                        }
+                    },
+                    error: function () {
+                        $("#loginMessage").html("An error occurred while processing your request.");
+                    }
+                });
+            });
+        });
+    </script>
+}

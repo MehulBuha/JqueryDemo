@@ -65,5 +65,30 @@ namespace Jquery.Models
                 return false;
             }
         }
+        public async Task<string> ValidateLogin(string email, string password)
+        {
+            try
+            {
+                var result = await Database.ExecuteSqlInterpolatedAsync($@"
+            EXEC ValidateLogin 
+                @Email={email}, 
+                @Password={password}");
+
+                if (result > 0)
+                {
+                    return "Success";
+                }
+                else
+                {
+                    return "Failure";
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log detailed error message
+                Console.WriteLine($"Error validating login: {ex.Message}");
+                return "Error occurred during login validation.";
+            }
+        }
     }
 }
