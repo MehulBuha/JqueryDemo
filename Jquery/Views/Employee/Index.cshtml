@@ -8,12 +8,24 @@
 <button class="btn btn-sm btn-primary m-2" id="btnAddEmployee">Add Employee</button>
 <div class="row mb-3">
     <div class="col">
+        <label for="pageSize">Page Size:</label>
+        <select id="pageSize" class="form-control">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="15">15</option>
+        </select>
+    </div>
+    <div class="col">
         <label for="fromDate">From Date:</label>
         <input type="date" id="fromDate" class="form-control">
     </div>
     <div class="col">
         <label for="toDate">To Date:</label>
         <input type="date" id="toDate" class="form-control">
+    </div>
+    <div class="col">
+        <label for="searchTerm">Search Term:</label>
+        <input type="text" id="searchTerm" class="form-control" autocomplete="off">
     </div>
     <div class="col">
         <button class="btn btn-primary mt-4" id="btnFilter">Filter</button>
@@ -59,6 +71,8 @@
     <tbody id="tbl_data">
     </tbody>
 </table>
+<button class="btn btn-primary" id="btnPrevious">Previous</button>
+<button class="btn btn-primary" id="btnNext">Next</button>
 <div class="madal fade modal" id="EmployeeModal">
     <div class="modal-dialog">
         <div class="modal-content">

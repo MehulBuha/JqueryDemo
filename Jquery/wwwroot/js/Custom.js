@@ -82,33 +82,142 @@ function Validation() {
 
 
 
-$(document).ready(function () {
+//$(document).ready(function () {
 
-    ShowEmployeeData();
+//    ShowEmployeeData();
+//    $("#btnFilter").click(function () {
+//        var fromDate = $("#fromDate").val();
+//        var toDate = $("#toDate").val();
+//        ShowEmployeeData(fromDate, toDate);
+//    });
+ 
+//});
+
+var currentPage = 1;
+var pageSize = 10;
+var sortColumn = 'CreationDate'; // Default sort column
+var sortDirection = 'DESC'; // Default sort direction
+
+$(document).ready(function () {
+    // Event handler for sorting columns
+    $(".sortable-column").click(function () {
+        var column = $(this).data('column');
+        if (column === sortColumn) {
+            // If the same column is clicked again, reverse the sorting direction
+            sortDirection = sortDirection === 'ASC' ? 'DESC' : 'ASC';
+        } else {
+            // If a new column is clicked, set it as the sorting column and default to descending order
+            sortColumn = column;
+            sortDirection = 'DESC';
+        }
+        var fromDate = $("#fromDate").val();
+        var toDate = $("#toDate").val();
+        var searchTerm = $("#searchTerm").val(); // Get the search term
+        ShowEmployeeData(fromDate, toDate, currentPage, pageSize, sortColumn, sortDirection, searchTerm);
+    });
+
+    // Event handler for Previous button
+    $("#btnPrevious").click(function () {
+        if (currentPage > 1) {
+            currentPage--;
+            var fromDate = $("#fromDate").val();
+            var toDate = $("#toDate").val();
+            var searchTerm = $("#searchTerm").val(); // Get the search term
+            ShowEmployeeData(fromDate, toDate, currentPage, pageSize, sortColumn, sortDirection, searchTerm);
+        }
+    });
+
+    // Event handler for Next button
+    $("#btnNext").click(function () {
+        currentPage++;
+        var fromDate = $("#fromDate").val();
+        var toDate = $("#toDate").val();
+        var searchTerm = $("#searchTerm").val(); // Get the search term
+        ShowEmployeeData(fromDate, toDate, currentPage, pageSize, sortColumn, sortDirection, searchTerm);
+    });
+
+    // Event handler for page size change
+    $("#pageSize").change(function () {
+        pageSize = $(this).val();
+        var fromDate = $("#fromDate").val();
+        var toDate = $("#toDate").val();
+        currentPage = 1; // Reset current page to 1 when page size changes
+        var searchTerm = $("#searchTerm").val(); // Get the search term
+        ShowEmployeeData(fromDate, toDate, currentPage, pageSize, sortColumn, sortDirection, searchTerm);
+    });
+
+    // Event handler for Filter button
     $("#btnFilter").click(function () {
         var fromDate = $("#fromDate").val();
         var toDate = $("#toDate").val();
-        ShowEmployeeData(fromDate, toDate);
+        var searchTerm = $("#searchTerm").val(); // Get the search term
+        ShowEmployeeData(fromDate, toDate, currentPage, pageSize, sortColumn, sortDirection, searchTerm);
     });
- 
+
+    // Initial loading of data without any filters
+    ShowEmployeeData();
 });
 
 
+////Get Data
+//function ShowEmployeeData(fromDate, toDate) {
+//    debugger;
+//    $.ajax({
+//        url: '/Employee/EmployeeList',
+//        type: 'Get',
+//        data: {
+//            fromDate: fromDate,
+//            toDate: toDate
+//        },
+//        dataType: 'json',
+//        contentType: 'application/json;charset=utf-8;',
+//        success: function (result, status, xhr) {
+          
+//            var object = '';
+//            $.each(result, function (index, item) {
+//                object += '<tr>';
+//                object += '<td>' + item.name + '</td>';
+//                object += '<td>' + item.gender + '</td>';
+//                object += '<td>' + item.email + '</td>';
+//                object += '<td>' + item.password + '</td>';
+//                object += '<td>' + item.phoneNo + '</td>';
+//                object += '<td>' + item.address + '</td>';
+//                object += '<td>' + item.occupation + '</td>';
+//                object += '<td>' + new Date(item.dateOfBirth).toLocaleDateString() + '</td>';
+//                object += '<td>' + new Date(item.creationDate).toLocaleDateString() + '</td>';
+//                object += '<td><a href="#"  class="btn btn-primary" onclick="EditEmployee(' + item.id + ')" >Edit</a>||<a href="#" class="btn btn-danger" onclick="DeleteEmployee(' + item.id +')">Delete</a></td>';
 
+//                object += '</tr>';
+
+//            });
+//            $("#tbl_data").html(object);
+
+//        },
+//        error: function () {
+//            alert("data not found");
+//        }
+//    });
+//};
 //Get Data
-function ShowEmployeeData(fromDate, toDate) {
+function ShowEmployeeData(fromDate, toDate, pageNumber, pageSize, sortColumn, sortDirection, searchTerm) {
     debugger;
     $.ajax({
         url: '/Employee/EmployeeList',
         type: 'Get',
         data: {
+
             fromDate: fromDate,
-            toDate: toDate
+            toDate: toDate,
+            pageNumber: pageNumber,
+            pageSize: pageSize,
+            sortColumn: sortColumn,
+            sortDirection: sortDirection,
+            searchTerm: searchTerm
         },
         dataType: 'json',
         contentType: 'application/json;charset=utf-8;',
         success: function (result, status, xhr) {
-          
+
             var object = '';
             $.each(result, function (index, item) {
                 object += '<tr>';
@@ -121,23 +230,16 @@ function ShowEmployeeData(fromDate, toDate) {
                 object += '<td>' + item.occupation + '</td>';
                 object += '<td>' + new Date(item.dateOfBirth).toLocaleDateString() + '</td>';
                 object += '<td>' + new Date(item.creationDate).toLocaleDateString() + '</td>';
-                object += '<td><a href="#"  class="btn btn-primary" onclick="EditEmployee(' + item.id + ')" >Edit</a>||<a href="#" class="btn btn-danger" onclick="DeleteEmployee(' + item.id +')">Delete</a></td>';
+                object += '<td><a href="#"  class="btn btn-primary" onclick="EditEmployee(' + item.id + ')" >Edit</a>||<a href="#" class="btn btn-danger" onclick="DeleteEmployee(' + item.id + ')">Delete</a></td>';
 
                 object += '</tr>';
 
             });
             $("#tbl_data").html(object);
 
-          
-            if (!$.fn.DataTable.isDataTable('#Datatable')) {
-                var table = $('#Datatable').DataTable({
-                    "columnDefs": [{
-                        "targets": [9],
-                        "orderable": false
-                    }]
+            updatePaginationControls(pageNumber);
 
-                });
-            }
+
 
         },
         error: function () {
@@ -145,7 +247,18 @@ function ShowEmployeeData(fromDate, toDate) {
         }
     });
 };
+function updatePaginationControls(pageNumber) {
+    // Enable/disable Previous button based on current page
+    if (pageNumber > 1) {
+        $("#btnPrevious").prop("disabled", false);
+    } else {
+        $("#btnPrevious").prop("disabled", true);
+    }
 
+    // Update current page number display
+    $("#currentPage").text(pageNumber);
+    $("#currentPageSize").text(pageSize);
+}
 
 //Open Modal Popup
 $("#btnAddEmployee").click(function () {

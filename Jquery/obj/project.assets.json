@@ -8653,19 +8653,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\MT009\\.nuget\\packages\\": {}
+    "C:\\Users\\MT009\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\JqueryDemo\\Jquery\\Jquery\\Jquery.csproj",
+      "projectUniqueName": "D:\\jQuerydemoClone\\Jquery\\Jquery.csproj",
       "projectName": "Jquery",
-      "projectPath": "D:\\JqueryDemo\\Jquery\\Jquery\\Jquery.csproj",
+      "projectPath": "D:\\jQuerydemoClone\\Jquery\\Jquery.csproj",
       "packagesPath": "C:\\Users\\MT009\\.nuget\\packages\\",
-      "outputPath": "D:\\JqueryDemo\\Jquery\\Jquery\\obj\\",
+      "outputPath": "D:\\jQuerydemoClone\\Jquery\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
         "C:\\Users\\MT009\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

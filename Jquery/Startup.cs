@@ -1,4 +1,5 @@
-using Jquery.Data;
+
+using Jquery.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,10 +26,9 @@ namespace Jquery
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationContext>(options =>
-                  options.UseSqlServer(
-                      Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllersWithViews();
+            services.AddDbContext<EmployeeDbContext>(options =>
+             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

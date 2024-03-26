@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HLTDDIw5bukmy1/Vea4+LG9tOPFuF1DnjYgwAd5OgfI48EqHhOTbPrxaK/dipznieGsgpzWAR168MI6+lGhscg==",
+  "dgSpecHash": "EWu4silwv4C3Q1XV1J1ZiIMr6j6/jX9f+GPqjd+8Inrq70WsbUURqGgNbBGOeNSaMbbIaZihikQS8NJpgtKPcw==",
   "success": true,
-  "projectFilePath": "D:\\JqueryDemo\\Jquery\\Jquery\\Jquery.csproj",
+  "projectFilePath": "D:\\jQuerydemoClone\\Jquery\\Jquery.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\MT009\\.nuget\\packages\\humanizer.core\\2.2.0\\humanizer.core.2.2.0.nupkg.sha512",
     "C:\\Users\\MT009\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
