@@ -55,7 +55,11 @@ namespace Jquery
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Employee}/{action=Index}/{id?}");
+                    pattern: "{controller=Login}/{action=Index}/{id?}");
+      //          endpoints.MapControllerRoute(
+      //name: "login",
+      //pattern: "{controller=Login}/{action=Index}/{id?}");
+
             });
         }
     }

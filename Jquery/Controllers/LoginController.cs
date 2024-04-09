@@ -15,23 +15,30 @@ namespace Jquery.Controllers
         {
             _dbContext = dbContext;
         }
+                                        
         public IActionResult Index()
         {
             return View();
         }
+
         [HttpPost]
-        public async Task<JsonResult> Login(string email, string password)
+        public async Task<IActionResult> Login(string email, string password)
         {
-
-            string status = await _dbContext.ValidateLogin(email, password);
-
-            if (status == "Success")
+            try
             {
-                return Json(new { success = true, message = "Login successful" });
+                var isAuthenticated = await _dbContext.ValidateLogin(email, password);
+                if (isAuthenticated)
+                {
+                    return Ok("Login successful");
+                }
+                else
+                {
+                    return BadRequest("Invalid email or password");
+                }
             }
-            else
+            catch
             {
-                return Json(new { success = false, message = "Invalid email or password" });
+                return StatusCode(500);
             }
         }
     }

@@ -2,12 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Jquery.Models
 {
-    public class EmployeeDbContext: DbContext
+    public class EmployeeDbContext : DbContext
     {
         public EmployeeDbContext(DbContextOptions<EmployeeDbContext> options) : base(options)
         {
@@ -65,30 +66,30 @@ namespace Jquery.Models
                 return false;
             }
         }
-        public async Task<string> ValidateLogin(string email, string password)
+
+        public async Task<bool> ValidateLogin(string email, string password)
         {
             try
             {
-                var result = await Database.ExecuteSqlInterpolatedAsync($@"
-            EXEC ValidateLogin 
-                @Email={email}, 
-                @Password={password}");
+                SqlParameter[] parameters =
+                {
+                    new SqlParameter("@Email", SqlDbType.VarChar, 255) { Value = email },
+                    new SqlParameter("@Password", SqlDbType.VarChar, 255) { Value = password },
+                    new SqlParameter("@IsAuthenticated", SqlDbType.Int) { Direction = ParameterDirection.Output }
+                };
 
-                if (result > 0)
-                {
-                    return "Success";
-                }
-                else
-                {
-                    return "Failure";
-                }
+                await Database.ExecuteSqlRawAsync("EXEC VerifyLogin @Email, @Password, @IsAuthenticated OUTPUT", parameters);
+
+                int isAuthenticated = (int)parameters[2].Value;
+                return isAuthenticated == 1;
             }
             catch (Exception ex)
             {
-                // Log detailed error message
-                Console.WriteLine($"Error validating login: {ex.Message}");
-                return "Error occurred during login validation.";
+                return false;
             }
         }
+
+
+
     }
 }
