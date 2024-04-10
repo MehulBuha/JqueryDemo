@@ -33,6 +33,12 @@ $(document).ready(function () {
                 success: function (response) {
                     if (response === "Login successful") {
                         $("#loginMessage").text("Login Successful.");
+
+                        //localstorage data set
+
+                        localStorage.setItem('email', email);
+                        localStorage.setItem('password', password);
+
                         window.location.href = '/Employee/Index';
                     } else {
                         alert(xhr.responseText);

@@ -99,6 +99,20 @@ var sortColumn = 'CreationDate'; // Default sort column
 var sortDirection = 'DESC'; // Default sort direction
 
 $(document).ready(function () {
+
+    //Local storage data get
+    var loggedInEmail = localStorage.getItem('email');
+    var loggedInPassword = localStorage.getItem('password');
+
+    if (loggedInEmail && loggedInPassword)
+    {
+        $("#loggedInUser").text(loggedInEmail);
+    } else
+    {
+        window.location.href = '/Login';
+    }
+
+
     // Event handler for sorting columns
     $(".sortable-column").click(function () {
         var column = $(this).data('column');
@@ -200,7 +214,6 @@ $(document).ready(function () {
 //};
 //Get Data
 function ShowEmployeeData(fromDate, toDate, pageNumber, pageSize, sortColumn, sortDirection, searchTerm) {
-    debugger;
     $.ajax({
         url: '/Employee/EmployeeList',
         type: 'Get',
@@ -213,7 +226,7 @@ function ShowEmployeeData(fromDate, toDate, pageNumber, pageSize, sortColumn, so
             sortColumn: sortColumn,
             sortDirection: sortDirection,
             searchTerm: searchTerm
-        },
+         },
         dataType: 'json',
         contentType: 'application/json;charset=utf-8;',
         success: function (result, status, xhr) {
@@ -230,7 +243,7 @@ function ShowEmployeeData(fromDate, toDate, pageNumber, pageSize, sortColumn, so
                 object += '<td>' + item.occupation + '</td>';
                 object += '<td>' + new Date(item.dateOfBirth).toLocaleDateString() + '</td>';
                 object += '<td>' + new Date(item.creationDate).toLocaleDateString() + '</td>';
-                object += '<td><a href="#"  class="btn btn-primary" onclick="EditEmployee(' + item.id + ')" >Edit</a>||<a href="#" class="btn btn-danger" onclick="DeleteEmployee(' + item.id + ')">Delete</a></td>';
+                object += '<td><a href="#"  class="btn btn-primary" onclick="EditEmployee(' + item.id + ')" >Edit</a>  <a href="#" class="btn btn-danger" onclick="DeleteEmployee(' + item.id + ')">Delete</a></td>';
 
                 object += '</tr>';
 
@@ -238,8 +251,13 @@ function ShowEmployeeData(fromDate, toDate, pageNumber, pageSize, sortColumn, so
             $("#tbl_data").html(object);
 
             updatePaginationControls(pageNumber);
-
-
+            debugger
+            var storedEmail = localStorage.getItem('email');
+            var storedPassword = localStorage.getItem('password');
+            console.log("Get Email from local storage: " + storedEmail);
+            console.log("Get Password from local storage: " + storedPassword);
+           
+               
 
         },
         error: function () {

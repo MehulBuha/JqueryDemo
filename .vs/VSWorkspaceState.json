@@ -5,6 +5,6 @@
     "\\Jquery\\Controllers",
     "\\Jquery\\Models"
   ],
-  "SelectedNode": "\\Jquery\\Controllers\\LoginController.cs",
+  "SelectedNode": "\\Jquery\\Models\\EmployeeDbContext.cs",
   "PreviewInSolutionExplorer": false
 }
