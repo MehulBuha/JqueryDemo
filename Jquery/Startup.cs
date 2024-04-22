@@ -3,6 +3,7 @@ using Jquery.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +28,13 @@ namespace Jquery
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            //services.AddControllersWithViews(options =>
+            //{
+            //    options.EnableEndpointRouting = false;
+            //    options.Filters.Add(new IgnoreAntiforgeryTokenAttribute());
+            //    options.Conventions.Clear(); // Clear default conventions
+            //   // options.Conventions.Add(new NoLayoutPageApplicationConvention()); // Add your custom conventions
+            //});
             services.AddDbContext<EmployeeDbContext>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
@@ -55,7 +63,7 @@ namespace Jquery
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Login}/{action=Index}/{id?}");
+                    pattern: "{controller=Login}/{action=Login}/{id?}");
 
             });
         }

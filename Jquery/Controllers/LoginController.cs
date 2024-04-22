@@ -16,7 +16,7 @@ namespace Jquery.Controllers
             _dbContext = dbContext;
         }
                                         
-        public IActionResult Index()
+        public IActionResult Login()
         {
             return View();
         }
@@ -33,13 +33,17 @@ namespace Jquery.Controllers
                 }
                 else
                 {
-                    return BadRequest("Invalid email or password");
+                    return Ok("Invalid Email Or Password");
                 }
+
             }
             catch
             {
                 return StatusCode(500);
             }
         }
+
+
+
     }
 }

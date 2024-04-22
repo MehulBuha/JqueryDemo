@@ -294,9 +294,9 @@ $("#btnAddEmployee").click(function () {
 //    }
 //}
 
+
 function AddEmployee() {
     if (Validation()) {
-        debugger;
         var formData = new FormData(); // Create FormData object to handle file uploads
         // Append employee data fields
         formData.append("Name", $("#Name").val());
@@ -307,22 +307,21 @@ function AddEmployee() {
         formData.append("Address", $("#Address").val());
         formData.append("Occupation", $("#Occupation").val());
         formData.append("DateOfBirth", $("#DateofBirth").val());
-        formData.append("CreationDate", new Date().toISOString()); // Assuming CreationDate is set on server-side
+        formData.append("CreationDate", new Date().toISOString()); 
         // Append image file
         var imageFile = $('#Image')[0].files[0];
         if (imageFile) {
             formData.append("Image", imageFile);
         }
-        debugger
+
         $.ajax({
-            
             type: 'POST',
             url: baseUrl + '/Employee/insert',
             contentType: false, // Set contentType to false when sending FormData
             processData: false, // Set processData to false to prevent jQuery from automatically converting FormData to string
             data: formData,
             success: function (result) {
-                alert('Successfully Inserted Data');
+                toastr.success('Data Successfully Inserted');
                 ClearTextBox();
                 ShowEmployeeData();
                 $("#EmployeeModal").modal('hide');
@@ -334,7 +333,6 @@ function AddEmployee() {
         });
     }
 }
-
 
 //Clear TextBox
 function ClearTextBox() {
@@ -476,10 +474,9 @@ function EditEmployee(id) {
 //    }
 //}
 
-//Delete Data
+//update data
 
 function UpdateEmployee() {
-    
     if (Validation()) {
         var formData = new FormData(); // Create FormData object to handle data
 
@@ -492,8 +489,8 @@ function UpdateEmployee() {
         formData.append("Address", $("#Address").val());
         formData.append("Occupation", $("#Occupation").val());
         formData.append("DateOfBirth", $("#DateofBirth").val());
-        formData.append("CreationDate", new Date().toISOString()); // Assuming CreationDate is set on server-side
-        // Append image file
+        formData.append("CreationDate", new Date().toISOString());
+  
         var imageFile = $('#Image')[0].files[0];
         if (imageFile) {
             formData.append("Image", imageFile);
@@ -501,18 +498,16 @@ function UpdateEmployee() {
 
         // Retrieve employee ID from hidden input field
         var employeeId = $("#Id").val();
-        formData.append("Id", employeeId); // Append employee ID
+        formData.append("Id", employeeId); 
 
-        debugger;
         $.ajax({
-            
             type: 'POST',
             url: baseUrl + '/Employee/update',
             contentType: false, // Set contentType to false when sending FormData
             processData: false, // Set processData to false to prevent jQuery from automatically converting FormData to string
             data: formData,
             success: function (result) {
-                alert('Successfully Updated Data');
+                toastr.success('Data Successfully Updated');
                 ClearTextBox();
                 ShowEmployeeData();
                 $("#EmployeeModal").modal('hide');
@@ -524,6 +519,8 @@ function UpdateEmployee() {
         });
     }
 }
+
+//delete data
 
 function DeleteEmployee(id) {
     var data = $("#form").serializeArray();
