@@ -287,3 +287,8 @@ D:\jQuerydemoClone\Jquery\obj\Debug\net5.0\ref\Jquery.dll
 D:\jQuerydemoClone\Jquery\obj\Debug\net5.0\Jquery.pdb
 D:\jQuerydemoClone\Jquery\obj\Debug\net5.0\Jquery.genruntimeconfig.cache
 D:\jQuerydemoClone\Jquery\obj\Debug\net5.0\Razor\Views\Login\Index.cshtml.g.cs
+D:\jQuerydemoClone\Jquery\bin\Debug\net5.0\Microsoft.OpenApi.dll
+D:\jQuerydemoClone\Jquery\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\jQuerydemoClone\Jquery\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\jQuerydemoClone\Jquery\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\jQuerydemoClone\Jquery\obj\Debug\net5.0\Jquery.MvcApplicationPartsAssemblyInfo.cs

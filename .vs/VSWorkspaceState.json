@@ -3,8 +3,12 @@
     "",
     "\\Jquery",
     "\\Jquery\\Controllers",
-    "\\Jquery\\Models"
+    "\\Jquery\\Models",
+    "\\Jquery\\Views",
+    "\\Jquery\\Views\\Login",
+    "\\Jquery\\wwwroot",
+    "\\Jquery\\wwwroot\\js"
   ],
-  "SelectedNode": "\\Jquery\\Models\\EmployeeDbContext.cs",
+  "SelectedNode": "\\Jquery\\wwwroot\\js\\Custom.js",
   "PreviewInSolutionExplorer": false
 }

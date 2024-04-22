@@ -81,18 +81,6 @@ function Validation() {
 }
 
 
-
-//$(document).ready(function () {
-
-//    ShowEmployeeData();
-//    $("#btnFilter").click(function () {
-//        var fromDate = $("#fromDate").val();
-//        var toDate = $("#toDate").val();
-//        ShowEmployeeData(fromDate, toDate);
-//    });
- 
-//});
-
 var currentPage = 1;
 var pageSize = 10;
 var sortColumn = 'CreationDate'; // Default sort column
@@ -107,7 +95,8 @@ $(document).ready(function () {
     if (loggedInEmail && loggedInPassword)
     {
         $("#loggedInUser").text(loggedInEmail);
-    } else
+    }
+    else
     {
         window.location.href = '/Login';
     }
@@ -172,53 +161,13 @@ $(document).ready(function () {
     ShowEmployeeData();
 });
 
-
-////Get Data
-//function ShowEmployeeData(fromDate, toDate) {
-//    debugger;
-//    $.ajax({
-//        url: '/Employee/EmployeeList',
-//        type: 'Get',
-//        data: {
-//            fromDate: fromDate,
-//            toDate: toDate
-//        },
-//        dataType: 'json',
-//        contentType: 'application/json;charset=utf-8;',
-//        success: function (result, status, xhr) {
-          
-//            var object = '';
-//            $.each(result, function (index, item) {
-//                object += '<tr>';
-//                object += '<td>' + item.name + '</td>';
-//                object += '<td>' + item.gender + '</td>';
-//                object += '<td>' + item.email + '</td>';
-//                object += '<td>' + item.password + '</td>';
-//                object += '<td>' + item.phoneNo + '</td>';
-//                object += '<td>' + item.address + '</td>';
-//                object += '<td>' + item.occupation + '</td>';
-//                object += '<td>' + new Date(item.dateOfBirth).toLocaleDateString() + '</td>';
-//                object += '<td>' + new Date(item.creationDate).toLocaleDateString() + '</td>';
-//                object += '<td><a href="#"  class="btn btn-primary" onclick="EditEmployee(' + item.id + ')" >Edit</a>||<a href="#" class="btn btn-danger" onclick="DeleteEmployee(' + item.id +')">Delete</a></td>';
-
-//                object += '</tr>';
-
-//            });
-//            $("#tbl_data").html(object);
-
-//        },
-//        error: function () {
-//            alert("data not found");
-//        }
-//    });
-//};
 //Get Data
 function ShowEmployeeData(fromDate, toDate, pageNumber, pageSize, sortColumn, sortDirection, searchTerm) {
-    $.ajax({
-        url: '/Employee/EmployeeList',
-        type: 'Get',
-        data: {
 
+    $.ajax({
+        url: baseUrl + '/Employee/list',
+        type: 'GET',
+        data: {
             fromDate: fromDate,
             toDate: toDate,
             pageNumber: pageNumber,
@@ -230,7 +179,7 @@ function ShowEmployeeData(fromDate, toDate, pageNumber, pageSize, sortColumn, so
         dataType: 'json',
         contentType: 'application/json;charset=utf-8;',
         success: function (result, status, xhr) {
-
+            debugger;
             var object = '';
             $.each(result, function (index, item) {
                 object += '<tr>';
@@ -243,6 +192,9 @@ function ShowEmployeeData(fromDate, toDate, pageNumber, pageSize, sortColumn, so
                 object += '<td>' + item.occupation + '</td>';
                 object += '<td>' + new Date(item.dateOfBirth).toLocaleDateString() + '</td>';
                 object += '<td>' + new Date(item.creationDate).toLocaleDateString() + '</td>';
+                //object += '<td><img src="' + item.images + '" alt="Employee Image" style="width: 100px; height: auto;"></td>';
+                object += '<td><img src="https://localhost:44312/Images/' + item.images + '" alt="Employee Image" style="max-width: 100px; max-height: 100px;"></td>';
+
                 object += '<td><a href="#"  class="btn btn-primary" onclick="EditEmployee(' + item.id + ')" >Edit</a>  <a href="#" class="btn btn-danger" onclick="DeleteEmployee(' + item.id + ')">Delete</a></td>';
 
                 object += '</tr>';
@@ -289,23 +241,95 @@ $("#btnAddEmployee").click(function () {
 
 
 //Insert Data
+//function AddEmployee() {
+//    if (Validation()) {
+//        var data = $("#form").serialize();
+//        $.ajax({
+//            type: 'POST',
+//            url: 'https://localhost:44312/Employee',
+//            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+//            data: data,
+//            success: function (result) {
+//                alert('Successfully Inserted Data ');
+//                ClearTextBox();
+//                ShowEmployeeData();
+//                $("#EmployeeModal").modal('hide');
+//            },
+//            error: function () {
+//                alert('Failed to receive the Data');
+//                console.log('Failed ');
+//            }
+//        });
+//    }
+//}
+
+//API
+// Insert Data
+//function AddEmployee() {
+//    if (Validation()) {
+//        var formData = $("#form").serializeArray();
+//        var employeeData = {};
+//        $(formData).each(function (index, obj) {
+//            if (obj.name !== "Id") { // Exclude the 'Id' field
+//                employeeData[obj.name] = obj.value;
+//            }
+//        });
+
+//        $.ajax({
+//            type: 'POST',
+//            url: baseUrl + '/Employee/insert',
+//            contentType: 'application/json',
+//            data: JSON.stringify(employeeData),
+//            success: function (result) {
+//                alert('Successfully Inserted Data');
+//                ClearTextBox();
+//                ShowEmployeeData();
+//                $("#EmployeeModal").modal('hide');
+//            },
+//            error: function (xhr, textStatus, errorThrown) {
+//                alert('Failed to receive the Data');
+//                console.log('Failed: ' + xhr.responseText);
+//            }
+//        });
+//    }
+//}
+
 function AddEmployee() {
     if (Validation()) {
-        var data = $("#form").serialize();
+        debugger;
+        var formData = new FormData(); // Create FormData object to handle file uploads
+        // Append employee data fields
+        formData.append("Name", $("#Name").val());
+        formData.append("Gender", $("input[name='Gender']:checked").val());
+        formData.append("Email", $("#Email").val());
+        formData.append("Password", $("#Password").val());
+        formData.append("PhoneNo", $("#Phone").val());
+        formData.append("Address", $("#Address").val());
+        formData.append("Occupation", $("#Occupation").val());
+        formData.append("DateOfBirth", $("#DateofBirth").val());
+        formData.append("CreationDate", new Date().toISOString()); // Assuming CreationDate is set on server-side
+        // Append image file
+        var imageFile = $('#Image')[0].files[0];
+        if (imageFile) {
+            formData.append("Image", imageFile);
+        }
+        debugger
         $.ajax({
+            
             type: 'POST',
-            url: '/Employee/InsertEmployee',
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-            data: data,
+            url: baseUrl + '/Employee/insert',
+            contentType: false, // Set contentType to false when sending FormData
+            processData: false, // Set processData to false to prevent jQuery from automatically converting FormData to string
+            data: formData,
             success: function (result) {
-                alert('Successfully Inserted Data ');
+                alert('Successfully Inserted Data');
                 ClearTextBox();
                 ShowEmployeeData();
                 $("#EmployeeModal").modal('hide');
             },
-            error: function () {
+            error: function (xhr, textStatus, errorThrown) {
                 alert('Failed to receive the Data');
-                console.log('Failed ');
+                console.log('Failed: ' + xhr.responseText);
             }
         });
     }
@@ -323,6 +347,7 @@ function ClearTextBox() {
     $("#Address").val('');
     $("#Occupation").val('');
     $("#DateofBirth").val('');
+    $("#Image").val('');
 }
 
 
@@ -332,26 +357,57 @@ $(document).ready(function () {
     document.getElementById('DateofBirth').setAttribute('max', today);
 })
 
+//Edit data
+//function EditEmployee(id) {
+//    $.ajax({
+//        url: '/Employee/EditEmployee?id=' + id,
+//        type: 'GET',
+//        contentType: 'application/json',
+//        dataType: 'json',
+//        success: function (result) {
 
+//            $("#EmployeeModal").modal('show');
+//            $("#Id").val(id);
+//            $("#Name").val(result.name);
+//            $("input[name='Gender'][value='" + result.gender + "']").prop('checked', true);
+//            $("#Email").val(result.email);
+//            $("#Password").val(result.password);
+//            $("#Phone").val(result.phoneNo);
+//            $("#Address").val(result.address);
+//            $("#Occupation").val(result.occupation);
+//            $("#DateofBirth").val(result.dateOfBirth.substring(0, 10));
+//            $("#AddEmployee").css('display', 'none');
+//            $("#UpdateEmployee").css('display', 'block');
+//            $("#EmployeeHeading").text('Update Employee')
+
+//        },
+//        error: function () {
+//            alert('Failed to fetch employee data');
+//        }
+//    });
+//}
+
+//API
 //Edit data
 function EditEmployee(id) {
     $.ajax({
-        url: '/Employee/EditEmployee?id=' + id,
+        url: baseUrl + '/Employee/edit/' + id,
         type: 'GET',
         contentType: 'application/json',
         dataType: 'json',
         success: function (result) {
-
+            debugger
             $("#EmployeeModal").modal('show');
             $("#Id").val(id);
-            $("#Name").val(result.name);
-            $("input[name='Gender'][value='" + result.gender + "']").prop('checked', true);
-            $("#Email").val(result.email);
-            $("#Password").val(result.password);
-            $("#Phone").val(result.phoneNo);
-            $("#Address").val(result.address);
-            $("#Occupation").val(result.occupation);
-            $("#DateofBirth").val(result.dateOfBirth.substring(0, 10));
+            $("#Name").val(result.data.name);
+            $("input[name='Gender'][value='" + result.data.gender + "']").prop('checked', true);
+            $("#Email").val(result.data.email);
+            $("#Password").val(result.data.password);
+            $("#Phone").val(result.data.phoneNo);
+            $("#Address").val(result.data.address);
+            $("#Occupation").val(result.data.occupation);
+            $("#DateofBirth").val(result.data.dateOfBirth);
+           
             $("#AddEmployee").css('display', 'none');
             $("#UpdateEmployee").css('display', 'block');
             $("#EmployeeHeading").text('Update Employee')
@@ -365,44 +421,125 @@ function EditEmployee(id) {
 
 
 // Update Data
+//function UpdateEmployee() {
+//    if (Validation()) {
+//        var data = $("#form").serialize();
+//        $.ajax({
+//            type: 'POST',
+//            url: '/Employee/UpdateEmployee',
+//            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+//            data: data,
+//            success: function (result) {
+//                alert('Successfully updated data');
+//                ClearTextBox();
+//                ShowEmployeeData();
+//                $("#EmployeeModal").modal('hide');
+//            },
+//            error: function () {
+//                alert('Failed to update data');
+//                console.log('Failed to update data');
+//            }
+//        });
+//    }
+//}
+
+
+//API
+//Update Data
+
+//function UpdateEmployee() {
+//    if (Validation()) {
+//        var formData = $("#form").serializeArray();
+//        var employeeData = {};
+//        $(formData).each(function (index, obj) {
+//            if (obj.name !== "id") { 
+//                employeeData[obj.name] = obj.value;
+//            }
+//        });
+//        debugger;
+//        $.ajax({
+//            type: 'POST',
+//            url: baseUrl + '/Employee/update',
+//            contentType: 'application/json',
+//            data: JSON.stringify(employeeData),
+//            success: function (result) {
+//                alert('Successfully Updated Data');
+//                ClearTextBox();
+//                ShowEmployeeData();
+//                $("#EmployeeModal").modal('hide');
+//            },
+//            error: function (xhr, textStatus, errorThrown) {
+//                alert('Failed to receive the Data');
+//                console.log('Failed: ' + xhr.responseText);
+//            }
+//        });
+//    }
+//}
+
+//Delete Data
+
 function UpdateEmployee() {
+    
     if (Validation()) {
-        var data = $("#form").serialize();
+        var formData = new FormData(); // Create FormData object to handle data
+
+        // Append form data fields
+        formData.append("Name", $("#Name").val());
+        formData.append("Gender", $("input[name='Gender']:checked").val());
+        formData.append("Email", $("#Email").val());
+        formData.append("Password", $("#Password").val());
+        formData.append("PhoneNo", $("#Phone").val());
+        formData.append("Address", $("#Address").val());
+        formData.append("Occupation", $("#Occupation").val());
+        formData.append("DateOfBirth", $("#DateofBirth").val());
+        formData.append("CreationDate", new Date().toISOString()); // Assuming CreationDate is set on server-side
+        // Append image file
+        var imageFile = $('#Image')[0].files[0];
+        if (imageFile) {
+            formData.append("Image", imageFile);
+        }
+
+        // Retrieve employee ID from hidden input field
+        var employeeId = $("#Id").val();
+        formData.append("Id", employeeId); // Append employee ID
+
+        debugger;
         $.ajax({
+            
             type: 'POST',
-            url: '/Employee/UpdateEmployee',
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-            data: data,
+            url: baseUrl + '/Employee/update',
+            contentType: false, // Set contentType to false when sending FormData
+            processData: false, // Set processData to false to prevent jQuery from automatically converting FormData to string
+            data: formData,
             success: function (result) {
-                alert('Successfully updated data');
+                alert('Successfully Updated Data');
                 ClearTextBox();
                 ShowEmployeeData();
                 $("#EmployeeModal").modal('hide');
             },
-            error: function () {
-                alert('Failed to update data');
-                console.log('Failed to update data');
+            error: function (xhr, textStatus, errorThrown) {
+                alert('Failed to receive the Data');
+                console.log('Failed: ' + xhr.responseText);
             }
         });
     }
 }
 
-//Delete Data
 function DeleteEmployee(id) {
-    var data = $("#form").serialize();
+    var data = $("#form").serializeArray();
     if (confirm('Are you sure, You want to delete this record?')) {
         $.ajax({
             type: 'POST',
-            url: '/Employee/DeleteEmployee?id=' + id,
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            url: baseUrl + '/Employee/delete/' + id,
+            contentType: 'application/json',
             data: id,
             success: function (result) {
                 ShowEmployeeData();
 
             },
             error: function () {
-                alert('Failed to update data');
-                console.log('Failed to update data');
+                alert('Failed to delete data');
+                console.log('Failed to delete data');
             }
         });
     }
