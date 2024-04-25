@@ -48,11 +48,13 @@ function Validation() {
         $("#phoneError").text("Phone is required");
         isValid = false;
     }
-    else if ($("#Phone").val().length > 15) {
+    else if ($("#Phone").val().length > 15)
+    {
         $("#phoneError").text("PhoneNo must be at most 15 characters long");
         isValid = false;
     }
-    else {
+    else
+    {
         $("#phoneError").text("");
     }
 
@@ -80,7 +82,6 @@ function Validation() {
     return isValid;
 }
 
-
 var currentPage = 1;
 var pageSize = 10;
 var sortColumn = 'CreationDate'; // Default sort column
@@ -100,6 +101,7 @@ $(document).ready(function () {
     {
         window.location.href = '/Login';
     }
+
 
 
     // Event handler for sorting columns
@@ -161,6 +163,7 @@ $(document).ready(function () {
     ShowEmployeeData();
 });
 
+
 //Get Data
 function ShowEmployeeData(fromDate, toDate, pageNumber, pageSize, sortColumn, sortDirection, searchTerm) {
 
@@ -192,9 +195,14 @@ function ShowEmployeeData(fromDate, toDate, pageNumber, pageSize, sortColumn, so
                 object += '<td>' + item.occupation + '</td>';
                 object += '<td>' + new Date(item.dateOfBirth).toLocaleDateString() + '</td>';
                 object += '<td>' + new Date(item.creationDate).toLocaleDateString() + '</td>';
-                //object += '<td><img src="' + item.images + '" alt="Employee Image" style="width: 100px; height: auto;"></td>';
-                object += '<td><img src="https://localhost:44312/Images/' + item.images + '" alt="Employee Image" style="max-width: 100px; max-height: 100px;"></td>';
-
+                if (item.images == null)
+                {
+                    object += '<td><img src="https://localhost:44312/Images/noimage.jpg" alt="Employee Image" style="max-width: 100px; max-height: 100px;"></td>';
+                }
+                else
+                {
+                    object += '<td><img src="https://localhost:44312/Images/' + item.images + '" alt="Employee Image" style="max-width: 100px; max-height: 100px;"></td>';
+                }
                 object += '<td><a href="#"  class="btn btn-primary" onclick="EditEmployee(' + item.id + ')" >Edit</a>  <a href="#" class="btn btn-danger" onclick="DeleteEmployee(' + item.id + ')">Delete</a></td>';
 
                 object += '</tr>';
@@ -307,13 +315,13 @@ function AddEmployee() {
         formData.append("Address", $("#Address").val());
         formData.append("Occupation", $("#Occupation").val());
         formData.append("DateOfBirth", $("#DateofBirth").val());
-        formData.append("CreationDate", new Date().toISOString()); 
+       
         // Append image file
         var imageFile = $('#Image')[0].files[0];
         if (imageFile) {
             formData.append("Image", imageFile);
         }
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
         $.ajax({
             type: 'POST',
             url: baseUrl + '/Employee/insert',
