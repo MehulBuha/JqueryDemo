@@ -8,14 +8,7 @@
 <button class="btn btn-sm btn-primary m-2" id="btnAddEmployee">Add Employee</button>
 
 <div class="row mb-3">
-    <div class="col">
-        <label for="pageSize">Page Size:</label>
-        <select id="pageSize" class="form-control">
-            <option value="5">5</option>
-            <option value="10" selected>10</option>
-            <option value="15">15</option>
-        </select>
-    </div>
+
     <div class="col">
         <label for="fromDate">From Date:</label>
         <input type="date" id="fromDate" class="form-control">
@@ -31,10 +24,10 @@
     <div class="col">
         <button class="btn btn-primary mt-4" id="btnFilter">Filter</button>
     </div>
-    <div class="col">
-        <label for="Logged in">Logged in :</label>
-        <h3 style="margin-right:-106px;"><span id="loggedInUser"></span></h3>
-    </div>
+    @*<div class="col">
+            <label for="Logged in">Logged in :</label>
+            <h3 style="margin-right:-106px;"><span id="loggedInUser"></span></h3>
+        </div>*@
 
 </div>
 <table class="table table-bordered" id="Datatable">
@@ -80,8 +73,22 @@
     <tbody id="tbl_data">
     </tbody>
 </table>
-<button class="btn btn-primary" id="btnPrevious">Previous</button>
-<button class="btn btn-primary" id="btnNext">Next</button>
+<div class="col-md-2">
+    <label for="pageSize">Page Size:</label>
+    <select id="pageSize" class="form-control">
+        <option value="5">5</option>
+        <option value="10" selected>10</option>
+        <option value="15">15</option>
+    </select>
+</div>
+<div class="row">
+    <div class="col-md-2 offset-md-10" style="text-align:right">
+        <button class="btn btn-primary" id="btnPrevious">Previous</button>
+        <button class="btn btn-primary" id="btnNext">Next</button>
+    </div>
+</div>
+
+
 <div class="madal fade modal" id="EmployeeModal">
     <div class="modal-dialog">
         <div class="modal-content">
