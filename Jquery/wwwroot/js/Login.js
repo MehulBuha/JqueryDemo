@@ -62,8 +62,9 @@ $(document).ready(function () {
             var email = $("#email").val();
             var password = $("#password").val();
 
-            // Start the loading bar
-            NProgress.start();
+           
+
+            showLoader();
 
             $.ajax({
                 type: 'POST',
@@ -100,11 +101,23 @@ $(document).ready(function () {
                     $("#emailError").text("Error occurred while logging in");
                     $("#passwordError").text("");
                 },
+              
                 complete: function () {
-                    // Stop the loading bar
-                    NProgress.done();
+                    // Hide loader after login attempt
+                    hideLoader();
                 }
             });
         }
     });
 });
+
+
+function showLoader() {
+    // Show loader
+    $('body').append('<div id="loader" style="position: relative; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.5); z-index: 9999; text-align: center;"><img src="/Images/loader.gif" alt="Loading..." style="height:25%"></div>');
+}
+
+function hideLoader() {
+    // Hide loader
+    $('#loader').remove();
+}
